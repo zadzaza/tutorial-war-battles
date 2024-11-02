@@ -1,2 +1,98 @@
 name: "main"
+instances {
+  id: "player"
+  prototype: "/main/player.go"
+  children: "operator"
+  position {
+    x: 259.0
+    y: -133.0
+    z: 1.0
+  }
+  rotation {
+    y: 0.0050174575
+    w: 0.9999874
+  }
+}
+instances {
+  id: "tank"
+  prototype: "/main/tank.go"
+  position {
+    x: 258.0
+    y: -78.0
+  }
+}
+instances {
+  id: "tank1"
+  prototype: "/main/tank.go"
+  position {
+    x: 196.0
+    y: -203.0
+  }
+}
+instances {
+  id: "tank2"
+  prototype: "/main/tank.go"
+  position {
+    x: 311.0
+    y: -203.0
+  }
+}
+instances {
+  id: "tank3"
+  prototype: "/main/tank.go"
+  position {
+    x: 77.0
+    y: -177.0
+  }
+}
+instances {
+  id: "tank4"
+  prototype: "/main/tank.go"
+  position {
+    x: 353.0
+    y: -135.0
+  }
+}
+instances {
+  id: "tank5"
+  prototype: "/main/tank.go"
+  position {
+    x: 138.0
+    y: -97.0
+  }
+}
 scale_along_z: 0
+embedded_instances {
+  id: "tilemap"
+  data: "components {\n"
+  "  id: \"map\"\n"
+  "  component: \"/main/map.tilemap\"\n"
+  "}\n"
+  ""
+}
+embedded_instances {
+  id: "operator"
+  data: "embedded_components {\n"
+  "  id: \"camera\"\n"
+  "  type: \"camera\"\n"
+  "  data: \"aspect_ratio: 1.0\\n"
+  "fov: 0.7854\\n"
+  "near_z: 0.1\\n"
+  "far_z: 1000.0\\n"
+  "auto_aspect_ratio: 1\\n"
+  "\"\n"
+  "}\n"
+  ""
+  position {
+    x: -2.468558
+    z: 245.9876
+  }
+}
+embedded_instances {
+  id: "gui"
+  data: "components {\n"
+  "  id: \"ui\"\n"
+  "  component: \"/main/ui.gui\"\n"
+  "}\n"
+  ""
+}

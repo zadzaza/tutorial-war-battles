@@ -1,5 +1,5 @@
 [project]
-title = Workshop shooter
+title = War battles tutorial
 version = 0.1
 
 [bootstrap]
@@ -20,3 +20,11 @@ shared_state = 1
 
 [tilemap]
 max_tile_count = 10000
+
+[graphics]
+default_texture_min_filter = nearest
+default_texture_mag_filter = nearest
+
+[sprite]
+max_count = 256
+
