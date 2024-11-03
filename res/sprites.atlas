@@ -1,5 +1,5 @@
 animations {
-  id: "player-down"
+  id: "player-move-down"
   images {
     image: "/assets/units/infantry/down/1.png"
   }
@@ -69,6 +69,52 @@ animations {
   images {
     image: "/assets/units/tank/down/2.png"
   }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 8
+}
+animations {
+  id: "player-idle-down"
+  images {
+    image: "/assets/units/infantry/down/2.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 8
+}
+animations {
+  id: "player-idle-side"
+  images {
+    image: "/assets/units/infantry/side/3.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 8
+}
+animations {
+  id: "player-idle-up"
+  images {
+    image: "/assets/units/infantry/up/4.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 8
+}
+animations {
+  id: "player-move-side"
+  images {
+    image: "/assets/units/infantry/side/1.png"
+  }
+  images {
+    image: "/assets/units/infantry/side/2.png"
+  }
+  images {
+    image: "/assets/units/infantry/side/3.png"
+  }
+  images {
+    image: "/assets/units/infantry/side/4.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 8
+}
+animations {
+  id: "player-move-up"
   playback: PLAYBACK_LOOP_FORWARD
   fps: 8
 }

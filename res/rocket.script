@@ -27,8 +27,8 @@ function on_message(self, message_id, message, sender)
 	if message_id == hash("animation_done") then
 		go.delete()
 	elseif message_id == hash("collision_response") then
-		local enemy_pos = go.get_position(message.other_id)  -- Получаем позицию объекта по ID
-		go.set_position(enemy_pos)
+		local enemy_pos = go.get_position(message.other_id)
+		go.set_position(enemy_pos + vmath.vector3(2, 7, 0))
 		explode(self)
 		msg.post("/gui#ui", "add_score", {score = 100})
 		go.delete(message.other_id)

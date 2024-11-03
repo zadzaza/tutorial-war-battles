@@ -1,3 +1,6 @@
+local anim_idle_down = hash("player-idle-down")
+local anim_move_down = hash("player-move-down")
+
 function init(self)
 	msg.post(".", "acquire_input_focus")
 	msg.post("operator#camera", "enable")
@@ -9,7 +12,17 @@ function init(self)
 	self.input = vmath.vector3()
 	self.dir = vmath.vector3(0, 1, 0)
 	self.speed = 50
-	print(math.atan2(1, 1))
+	self.anim = nil
+end
+
+local function play_animation(self, anim)
+	-- only play animations which are not already playing
+	if self.anim ~= anim then
+		-- tell the sprite to play the animation
+		sprite.play_flipbook("#sprite", anim)
+		-- remember which animation is playing
+		self.anim = anim
+	end
 end
 
 function update(self, dt)
@@ -17,6 +30,12 @@ function update(self, dt)
 		local pos = go.get_position()
 		pos = pos + self.dir * self.speed * dt
 		go.set_position(pos)
+
+		if self.dir.y < 0 then
+			play_animation(self, anim_move_down)
+		end
+	else
+		play_animation(self, anim_idle_down)
 	end
 
 	if self.firing then
