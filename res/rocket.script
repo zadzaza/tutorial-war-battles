@@ -14,7 +14,7 @@ end
 
 function update(self, dt)
 	local pos = go.get_position()
-	pos = pos + self.dir * self.speed * dt
+	pos = pos + vmath.normalize(self.dir) * self.speed * dt
 	go.set_position(pos)
 
 	self.life = self.life - dt

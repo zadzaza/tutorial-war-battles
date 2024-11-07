@@ -1,0 +1,28 @@
+function init(self)
+	math.randomseed(os.time())
+	
+	self.wait_time = 1.0
+	self.time_left = self.wait_time
+	self.spawn_pos = vmath.vector3(0, 0, 0)
+	self.target = nil
+end
+
+function update(self, dt)
+	self.time_left = self.time_left - dt
+	if self.time_left <= 0 then
+		self.time_left = self.wait_time
+		
+		local x = math.random(-100, 100)
+		local y = math.random(-100, 100)
+		local random_direction = vmath.normalize(vmath.vector3(x, y, 0))
+
+		factory.create("#tankfactory", self.spawn_pos + (random_direction * 100))
+	end
+end
+
+function on_message(self, message_id, message)
+	if message_id == hash("pos_updated") then
+		self.spawn_pos = message.pos
+		self.target = message.other_id
+	end
+end

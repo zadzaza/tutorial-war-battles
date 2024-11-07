@@ -1,3 +1,7 @@
+components {
+  id: "tank"
+  component: "/res/tank.script"
+}
 embedded_components {
   id: "sprite"
   type: "sprite"
@@ -10,7 +14,7 @@ embedded_components {
   ""
 }
 embedded_components {
-  id: "collisionobject"
+  id: "collisionrockets"
   type: "collisionobject"
   data: "type: COLLISION_OBJECT_TYPE_KINEMATIC\n"
   "mass: 0.0\n"
@@ -28,8 +32,33 @@ embedded_components {
   "    index: 0\n"
   "    count: 3\n"
   "  }\n"
-  "  data: 8.389413\n"
-  "  data: 10.400868\n"
+  "  data: 8.988764\n"
+  "  data: 10.751748\n"
+  "  data: 10.0\n"
+  "}\n"
+  ""
+}
+embedded_components {
+  id: "collisionself"
+  type: "collisionobject"
+  data: "type: COLLISION_OBJECT_TYPE_KINEMATIC\n"
+  "mass: 0.0\n"
+  "friction: 0.1\n"
+  "restitution: 0.5\n"
+  "group: \"enemies\"\n"
+  "mask: \"player\"\n"
+  "embedded_collision_shape {\n"
+  "  shapes {\n"
+  "    shape_type: TYPE_BOX\n"
+  "    position {\n"
+  "    }\n"
+  "    rotation {\n"
+  "    }\n"
+  "    index: 0\n"
+  "    count: 3\n"
+  "  }\n"
+  "  data: 8.988764\n"
+  "  data: 10.751748\n"
   "  data: 10.0\n"
   "}\n"
   ""
