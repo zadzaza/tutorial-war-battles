@@ -1,27 +1,48 @@
 function init(self)
-	self.max_speed = 15
+	self.max_speed = 25
 	self.max_distance = 70
 	self.current_speed = 0
-	self.acceleration = 20
+	self.acceleration = 30
 	self.deceleration = 30
+	self.is_target = true
+end
+
+local function explode(self)
+	self.is_target = false
+	self.current_speed = 0
+	go.set_rotation(vmath.quat())
+	msg.post("#collisionobject", "disable")
+	sprite.play_flipbook("#sprite", "explosion")
 end
 
 function update(self, dt)
-	local pos = go.get_position()
-	local target_pos = go.get_position("player")
-	local distance_to = target_pos - pos
-	local dir = vmath.normalize(distance_to)
+	if self.is_target then
+		local pos = go.get_position()
+		local target_pos = go.get_position("player")
+		local distance_to = target_pos - pos
+		local dir = vmath.normalize(distance_to)
 
-	if vmath.length(distance_to) > self.max_distance then
-		if self.current_speed < self.max_speed then
-			self.current_speed = math.min(self.current_speed + self.acceleration * dt, self.max_speed)
+		if vmath.length(distance_to) > self.max_distance then
+			if self.current_speed < self.max_speed then
+				self.current_speed = math.min(self.current_speed + self.acceleration * dt, self.max_speed)
+			end
+		else
+			if self.current_speed > 0 then
+				self.current_speed = math.max(self.current_speed - self.deceleration * dt, 0)
+			end
 		end
-	else
-		if self.current_speed > 0 then
-			self.current_speed = math.max(self.current_speed - self.deceleration * dt, 0)
-		end
+
+		pos = pos + dir * self.current_speed * dt
+		go.set_position(pos)
 	end
+end
 
-	pos = pos + dir * self.current_speed * dt
-	go.set_position(pos)
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("explode") then
+		explode(self)
+	end
+	if message_id == hash("animation_done") then
+		go.delete()
+	end
 end
