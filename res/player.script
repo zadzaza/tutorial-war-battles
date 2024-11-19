@@ -44,6 +44,9 @@ local function play_animation(self, anim)
 end
 
 local function update_animation(self, state)
+	
+	sprite.set_hflip("#sprite", self.dir.x < 0 and self.dir.y == 0)
+	
 	if self.dir.y < 0 then
 		play_animation(self, animations[state].down)
 	elseif self.dir.y > 0 then
@@ -60,10 +63,7 @@ function update(self, dt)
 	if self.moving then
 		pos = pos + self.dir * self.speed * dt
 		go.set_position(pos)
-
-		-- Установка направления спрайта
-		sprite.set_hflip("#sprite", self.dir.x < 0 and self.dir.y == 0)
-
+		
 		-- Переключение анимации движения
 		update_animation(self, "move")
 
@@ -108,3 +108,5 @@ function on_input(self, action_id, action)
 		self.dir = vmath.normalize(self.input)
 	end
 end
+
+

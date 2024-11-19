@@ -2,12 +2,26 @@ go.property("dir", vmath.vector3())
 
 function init(self)
 	self.speed = 200
+	self.life = 0.5
+end
+
+local function explode(self)
+	self.life = 1000
+	go.set_rotation(vmath.quat())
+	self.speed = 0
+	msg.post("#collisionobject", "disable")
+	sprite.play_flipbook("#sprite", "explosion")
 end
 
 function update(self, dt)
 	local pos = go.get_position()
 	pos = pos + vmath.normalize(self.dir) * self.speed * dt
 	go.set_position(pos)
+
+	self.life = self.life - dt
+	if self.life < 0 then
+		explode(self)
+	end
 end
 
 function on_message(self, message_id, message, sender)

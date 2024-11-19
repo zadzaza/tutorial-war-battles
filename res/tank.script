@@ -1,22 +1,66 @@
+local anim_move_down = hash("tank-down")
+local anim_move_up = hash("tank-up")
+local anim_move_side = hash("tank-side")
+
+local animations = {
+	up = anim_move_up,
+	down = anim_move_down,
+	side = anim_move_side
+}
+
 function init(self)
+	self.dir = vmath.vector3(1,1,1)
 	self.max_speed = 25
 	self.max_distance = 70
 	self.current_speed = 0
 	self.acceleration = 30
 	self.deceleration = 30
 	self.is_target = true
+	self.moving = false
+end
+
+local function play_animation(self, anim)
+	-- only play animations which are not already playing
+	if self.anim ~= anim then
+		-- tell the sprite to play the animation
+		sprite.play_flipbook("#sprite", anim)
+		-- remember which animation is playing
+		self.anim = anim
+	end
+end
+
+local function update_animation(self, dir)
+	-- Определить, в каком направлении движение преобладает
+	if math.abs(dir.y) > math.abs(dir.x) then
+		-- Движение вверх или вниз
+		if dir.y > 0 then
+			play_animation(self, animations.up)
+		else
+			play_animation(self, animations.down)
+		end
+	else
+		-- Движение в сторону
+		if dir.x ~= 0 then
+			play_animation(self, animations.side)
+			if dir.x > 0 then
+				sprite.set_hflip("#sprite", false)
+			elseif dir.x < 0 then
+				sprite.set_hflip("#sprite", true)
+			end
+		end
+	end
 end
 
 local function explode(self)
 	self.is_target = false
 	self.current_speed = 0
-	go.set_rotation(vmath.quat())
 	msg.post("#collisionobject", "disable")
 	sprite.play_flipbook("#sprite", "explosion")
 end
 
 function update(self, dt)
 	if self.is_target then
+		
 		local pos = go.get_position()
 		local target_pos = go.get_position("player")
 		local distance_to = target_pos - pos
@@ -34,9 +78,9 @@ function update(self, dt)
 
 		pos = pos + dir * self.current_speed * dt
 		go.set_position(pos)
+		update_animation(self, dir)
 	end
 end
-
 
 function on_message(self, message_id, message, sender)
 	if message_id == hash("explode") then
@@ -46,3 +90,5 @@ function on_message(self, message_id, message, sender)
 		go.delete()
 	end
 end
+
+
