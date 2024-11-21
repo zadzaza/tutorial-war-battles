@@ -16,13 +16,6 @@ function update(self, dt)
 		local y = math.random(-100, 100)
 		local random_direction = vmath.normalize(vmath.vector3(x, y, 0))
 
-		factory.create("#tankfactory", self.spawn_pos + (random_direction * 100))
-	end
-end
-
-function on_message(self, message_id, message)
-	if message_id == hash("pos_updated") then
-		self.spawn_pos = message.pos
-		self.target = message.other_id
+		factory.create("#tankfactory", go.get_position("player") + (random_direction * 100))
 	end
 end

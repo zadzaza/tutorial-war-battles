@@ -44,3 +44,14 @@ embedded_components {
   "}\n"
   ""
 }
+embedded_components {
+  id: "camera"
+  type: "camera"
+  data: "aspect_ratio: 1.0\n"
+  "fov: 0.7854\n"
+  "near_z: -1000.0\n"
+  "far_z: 1000.0\n"
+  "orthographic_projection: 1\n"
+  "orthographic_zoom: 3.5\n"
+  ""
+}

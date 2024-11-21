@@ -5,6 +5,9 @@ local anim_move_up = hash("player-move-up")
 local anim_idle_side = hash("player-idle-side")
 local anim_move_side = hash("player-move-side")
 
+local DISPLAY_WIDTH = sys.get_config_int("display.width")
+local DISPLAY_HEIGHT = sys.get_config_int("display.height")
+
 local animations = {
 	move = {
 		up = anim_move_up,
@@ -19,10 +22,12 @@ local animations = {
 }
 
 function init(self)
+	local pos = go.get_position()
+	go.set_position(vmath.vector3(pos.x, pos.y, -pos.y))
+	
 	msg.post(".", "acquire_input_focus")
-	msg.post("operator#camera", "enable")
+	msg.post("#camera", "acquire_camera_focus")
 	msg.post("@render:", "use_camera_projection")
-	msg.post("/enemyspawner", "pos_updated", {pos = go.get_position()})
 
 	self.moving = false
 	self.firing = false
@@ -58,16 +63,14 @@ end
 
 function update(self, dt)
 	local pos = go.get_position()
-
 	-- Обновление позиции
 	if self.moving then
 		pos = pos + self.dir * self.speed * dt
+		pos.z = -pos.y
 		go.set_position(pos)
 		
 		-- Переключение анимации движения
 		update_animation(self, "move")
-
-		msg.post("/enemyspawner", "pos_updated", {pos = go.get_position()})
 	else
 		-- Переключение анимации ожидания
 		update_animation(self, "idle")
@@ -90,7 +93,33 @@ function update(self, dt)
 	self.moving = false
 end
 
+local function screen_to_world(x, y, z, camera)
+	local projection = go.get(camera, "projection")
+	local view = go.get(camera, "view")
+	local w, h = window.get_size()
+	-- The window.get_size() function will return the scaled window size,
+	-- ie taking into account display scaling (Retina screens on macOS for
+	-- instance). We need to adjust for display scaling in our calculation.
+	w = w / (w / DISPLAY_WIDTH)
+	h = h / (h / DISPLAY_HEIGHT)
+
+	-- https://defold.com/manuals/camera/#converting-mouse-to-world-coordinates
+	local inv = vmath.inv(projection * view)
+	x = (2 * x / w) - 1
+	y = (2 * y / h) - 1
+	z = (2 * z) - 1
+	local x1 = x * inv.m00 + y * inv.m01 + z * inv.m02 + inv.m03
+	local y1 = x * inv.m10 + y * inv.m11 + z * inv.m12 + inv.m13
+	local z1 = x * inv.m20 + y * inv.m21 + z * inv.m22 + inv.m23
+	return x1, y1, z1
+end
+
 function on_input(self, action_id, action)
+	if action.x and action.y then
+		local worldx, worldy = screen_to_world(action.x, action.y, 0, "#camera")
+		local world = vmath.vector3(worldx, worldy, 0)
+		print(math.floor(100 / 1.33))
+	end
 	if action_id == hash("up") then
 		self.input.y = 1
 	elseif action_id == hash("down")  then

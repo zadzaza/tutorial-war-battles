@@ -22,3 +22,7 @@ key_trigger {
   input: KEY_SPACE
   action: ""
 }
+mouse_trigger {
+  input: MOUSE_WHEEL_UP
+  action: "mouse_wheel_up"
+}

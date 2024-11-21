@@ -83,7 +83,7 @@ animations {
 animations {
   id: "player-idle-side"
   images {
-    image: "/assets/units/infantry/side/3.png"
+    image: "/assets/units/infantry/side/4.png"
   }
   playback: PLAYBACK_LOOP_FORWARD
   fps: 8

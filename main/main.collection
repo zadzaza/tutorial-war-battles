@@ -2,10 +2,9 @@ name: "main"
 instances {
   id: "player"
   prototype: "/main/player.go"
-  children: "operator"
   position {
-    x: 259.0
-    y: -133.0
+    x: 219.0
+    y: -166.0
     z: 1.0
   }
   rotation {
@@ -21,24 +20,6 @@ embedded_instances {
   "  component: \"/main/map.tilemap\"\n"
   "}\n"
   ""
-}
-embedded_instances {
-  id: "operator"
-  data: "embedded_components {\n"
-  "  id: \"camera\"\n"
-  "  type: \"camera\"\n"
-  "  data: \"aspect_ratio: 1.0\\n"
-  "fov: 0.7854\\n"
-  "near_z: 0.1\\n"
-  "far_z: 1000.0\\n"
-  "auto_aspect_ratio: 1\\n"
-  "\"\n"
-  "}\n"
-  ""
-  position {
-    x: -2.468558
-    z: 245.9876
-  }
 }
 embedded_instances {
   id: "gui"
